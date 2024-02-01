@@ -64,15 +64,25 @@ function playBot(){
 }
 
 function clicked(posClick){
+
+    let clickDetect = 0;
+
     for (let i = 0; i < 9; i++) {
         if (posClick == i && posStatus[i] == 0) {
             posTag[i].style.backgroundImage = "url('circulo.png')";
             posStatus[i] = 1;
-            
-
+            clickDetect = 1;
         }
+    } 
+    if (clickDetect == 1){
+        playBot();
     }
-    playBot();
+
+    console.clear();
+    for (let i = 0; i < 9; i++) {
+        
+        console.log("pos " + i + " = " + posStatus[i]);
+    }
 }
 
 
