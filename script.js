@@ -4,9 +4,7 @@ let posTag = [9];
 let pos = [9];
 let turno = 0;
 
-
 let posInicial = Math.floor(Math.random() * 9);
-console.log(posInicial);
 
 pos[0] = document.getElementById('da1');
 pos[1] = document.getElementById('la1');
@@ -39,38 +37,44 @@ turno++;
 //let automato = document.getElementById('automato')
 //automato.textContent = "q0 → q1";
 
-/*
-for(let i=0;i<9;i++){
-    pos[i].addEventListener('click', function(){
-        if (!posStatus[i]){
-            posStatus[i] = 1;
-            posTag[i].style.backgroundImage = "url('circulo.png')";
-            console.log(pos[i])
-        }
-        pos[i].removeEventListener('click', clickHandler);
-    });
-}
-*/
+//conta em qual turno o jogo esta e retorna o turno
+function turnCount(){
+    let counter=0;
 
-function click0(){
-    if(!posStatus[0]){
-        posTag[0].style.backgroundImage = "url('circulo.png')";
+    for (let i = 0; i < 9; i++) {
+        if(posStatus[i] == 0){
+            counter++;
+        }
+    }
+
+    return counter;
+}
+
+function playBot(){   
+    let okMove = 0;
+    while(okMove == 0){
+        let posBot = Math.floor(Math.random() * 9);
+
+        if(posStatus[posBot] == 0){         
+            posTag[posBot].style.backgroundImage = "url('cross2.png')";
+            posStatus[posBot] = 1;
+            okMove = 1;
+        }
     }
 }
 
+function clicked(posClick){
+    for (let i = 0; i < 9; i++) {
+        if (posClick == i && posStatus[i] == 0) {
+            posTag[i].style.backgroundImage = "url('circulo.png')";
+            posStatus[i] = 1;
+            
 
-//q0 -> q1 (primeira jogada do bot no centro)
-if(posInicial == 4){
-    //if()
+        }
+    }
+    playBot();
 }
-//q0 -> q2 (primeira jogada do bot não é em uma diagonal e nem no centro)
-if(posInicial == 0 || posInicial == 2 || posInicial == 6 || posInicial == 8){
-    
-}
-//q0 -> q3 (primeira jogada do bot é em uma diagonal)
-if(posInicial == 0 || posInicial == 2 || posInicial == 6 || posInicial == 8){
-    
-}
+
 
 
 
