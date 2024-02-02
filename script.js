@@ -1,8 +1,8 @@
-
 let posStatus = [9];
 let posTag = [9];
 let botPlays = [5];
 let rotateStatus = 0; // 0 = sem rotate / 1 = rotate right / 2 = rotate rotate / 3 = rotate left
+var divMensagem = document.getElementById("automato");
 
 const Rotate = {
     0: "normal",
@@ -265,73 +265,89 @@ function turnCount() {
 function playBot() {
     //TURNO 1 ##################################################################
     if (turnCount() == 0) {
-        let posBotTela = Math.floor(Math.random() * 9);
-        //let posBotTela = 4;
-        if (posBotTela == 0 || posBotTela == 1 || posBotTela == 4) {
+        //let posBotTela = Math.floor(Math.random() * 9);
+        let posBotTela = 4;
+        if (posBotTela == 0 || posBotTela == 1 || posBotTela == 4) {    //sem rotate player
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
         }
-        else if (posBotTela == 2 || posBotTela == 5) {
+        else if (posBotTela == 2 || posBotTela == 5) {                  //rotate left player
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateL(posStatus, rotateStatus);
         }
-        else if (posBotTela == 6 || posBotTela == 3) {
+        else if (posBotTela == 6 || posBotTela == 3) {                  //rotate right player
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateR(posStatus, rotateStatus);
         }
-        else {
+        else{                                                          //rotate duplo player
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateR(rotateR(posStatus, rotateStatus), rotateStatus);
         }
+
+        posBotTela = rotateNum(rotateNum(rotateNum(posBotTela)));
         botPlays[0] = posBotTela;
+        console.log("Primeira jogada do bot = " + botPlays[0]);
     }
     //TURNO 3 ##################################################################
     else if (turnCount() == 2) {
     //Q5
-        //nao houve rotate
-        if (posStatus[0] == 1 && posStatus[4] == 1 && botPlays[0] == 4) {
-            insereX(2);
-            posStatus[2] = 1;
-            console.log("1");
-        }
-        //houve rotate right
-        else if (posStatus[2] == 1 && posStatus[4] == 1 && botPlays[0] == 4) {
-            posStatus = rotateL(posStatus, rotateStatus);
-            insereX(2);
-            posStatus[2] = 1;
-        }
-        //houve rotate left
-        else if (posStatus[6] == 1 && posStatus[4] == 1 && botPlays[0] == 4) {
-            posStatus = rotateR(posStatus, rotateStatus);
-            insereX(2);
-            posStatus[2] = 1;
-        }
-        //houve rotate duplo
-        else if (posStatus[8] == 1 && posStatus[4] == 1 && botPlays[0] == 4) {
-            posStatus = rotateR(rotateR(posStatus, rotateStatus), rotateStatus);
-            insereX(2);
-            posStatus[2] = 1;
+        if(botPlays[0] == 4){
+            //nao houve rotate
+            if (posStatus[0] == 1 && posStatus[4] == 1) {
+                insereX(2);
+                posStatus[2] = 1;
+            }
+            //houve rotate right
+            else if (posStatus[2] == 1 && posStatus[4] == 1) {
+                posStatus = rotateL(posStatus, rotateStatus);
+                insereX(2);
+                posStatus[2] = 1;
+            }
+            //houve rotate left
+            else if (posStatus[6] == 1 && posStatus[4] == 1) {
+                posStatus = rotateR(posStatus, rotateStatus);
+                insereX(2);
+                posStatus[2] = 1;
+            }
+            //houve rotate duplo
+            else if (posStatus[8] == 1 && posStatus[4] == 1) {
+                posStatus = rotateR(rotateR(posStatus, rotateStatus), rotateStatus);
+                insereX(2);
+                posStatus[2] = 1;
+            }
+            else{
+                divMensagem.innerHTML = "PERDEU";
+                // TO DO
+            }
         }
     //Q21
-        else if (posStatus[0] == 1 && posStatus[4] == 1) {
-           insereX(8);
-           posStatus[8] = 1;
+        else if(botPlays[0] == 0){
+            if (posStatus[0] == 1 && posStatus[4] == 1) {
+                insereX(8);
+                posStatus[8] = 1;
+            }
+            else{
+                divMensagem.innerHTML = "PERDEU";
+                // TO DO
+            }
         }
     //Q14 ou Q15
-        else if (posStatus[1] == 1 && posStatus[4] == 1 || (posStatus[1] == 1 && posStatus[7] == 1))  {
-            insereX(0);
-            posStatus[0] = 1;
-        }
-        else if ((posStatus[1] == 1 && posStatus[3] == 1) || (posStatus[1] == 1 && posStatus[5] == 1)) {
-            console.log("PERDEU O JOGO");
-            // TO DO
-        }
-        else{
-            insereX(4);
-            posStatus[4] = 1;
+        else if(botPlays[0] == 1){
+            if (posStatus[1] == 1 && posStatus[4] == 1 || (posStatus[1] == 1 && posStatus[7] == 1))  {
+                insereX(0);
+                posStatus[0] = 1;
+            }
+            else if ((posStatus[1] == 1 && posStatus[3] == 1) || (posStatus[1] == 1 && posStatus[5] == 1)) {
+                divMensagem.innerHTML = "PERDEU";
+                // TO DO
+            }
+            else{
+                insereX(4);
+                posStatus[4] = 1;
+            }
         }
     }
     //TURNO 3 ##################################################################
