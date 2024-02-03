@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div id="jogo">
+        <a href="">
+        <h1 style="text-decoration: none;">Visualizar jogo para o AFD</h1>
+        </a>
         <div id="linha1">
             <button onclick="clicked(0)" id="da1"></button>
             <button onclick="clicked(1)" id="la1"></button>
@@ -26,10 +28,30 @@
         </div>
     </div>
 
-    <div id="automato">
-        
+    <div id="jogo2">
+        <div class="linha">
+            <div class="quadrado" id="quadrado1"></div>
+            <div class="quadrado" id="quadrado2"></div>
+            <div style="background-size: 70px;" class="quadrado" id="quadrado3"></div>
+        </div>
+        <div class="linha">
+            <div class="quadrado" id="quadrado4"></div>
+            <div class="quadrado" id="quadrado5"></div>
+            <div class="quadrado" id="quadrado6"></div>
+        </div>
+        <div class="linha">
+            <div class="quadrado" id="quadrado7"></div>
+            <div class="quadrado" id="quadrado8"></div>
+            <div class="quadrado" id="quadrado9"></div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <div id="mensagens">
+        <div id="automato"></div>
+        <div style="font-size: 33px; color: white;" id="statRot"></div>
+    </div>
+    
+
+    <script src="index.js"></script>
 </body>
 </html>

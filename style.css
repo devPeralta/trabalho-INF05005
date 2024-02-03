@@ -1,45 +1,359 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    margin: 0;
-    background-color: rgb(46, 49, 53);
+@media screen and (max-width: 600px){
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        margin: 0;
+        background-color: rgb(46, 49, 53);
+        text-decoration: none;
+    }
+
+    #jogo {
+        display: grid;
+        grid-template-columns: repeat(3, 175);
+        border: 5px solid rgb(46, 49, 53);
+    }
+
+    #jogo>div {
+        padding: 0;
+    }
+
+    #jogo>div>button {
+        box-shadow: inset 0px 1px 3px 0px #91b8b3;
+        background-color: #768d87;
+        border-radius: 5px;
+        border: 1px solid #566963;
+        display: inline-block;
+        cursor: pointer;
+        margin: 5px;
+        padding: 11px 23px;
+        width: 80px;
+        height: 80px;
+        background-size: 80px;
+    }
+
+    #jogo>div>button:hover {
+        background-image: url('circulo2.png');
+        background-size: 125px;
+        border: 1px solid #566963;
+        background-size: 80px;
+    }
+
+    #mensagens {
+        position: absolute;
+        margin-top: 750px;
+        text-align: center;
+        font-size: 80px;
+        color: #8AA;
+        text-shadow: 0px 1px 0 #4a6868, 0px 2px 0 #405959, 0px 3px 0 #354a4a, 0px 0px 0px hsla(0, 0%, 0%, 0), -4px 4px 6px black;
+    }
+    h1 {
+        padding: 15px 25px;
+        border: unset;
+        border-radius: 15px;
+        color: #212121;
+        z-index: 1;
+        background: #e8e8e8;
+        position: relative;
+        font-weight: 1000;
+        font-size: 19px;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        overflow: hidden;
+        text-align: center;
+        margin-right: 120px;
+        margin-left: 120px;
+        text-decoration: none;
+        padding: 0;
+    }
+
+    h1::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        border-radius: 15px;
+        background-color: #212121;
+        z-index: -1;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        text-decoration: none;
+    }
+
+    h1:hover {
+        color: #e8e8e8;
+        text-decoration: none;
+    }
+
+    h1:hover::before {
+        width: 100%;
+        text-decoration: none;
+    }
+    
+    #jogo2 {
+        display: inline-block;
+        border: 3px solid #ffffff00;
+        width: 150px;
+        height: 150px;
+        margin-left: 0;
+    }
+    
+    .linha {
+        display: flex;
+    }
+    
+    .quadrado {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #ffffff;
+        margin: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
 }
 
-#jogo {
-    display: grid;
-    grid-template-columns: repeat(3, 175);
-    border: 5px solid rgb(46, 49, 53);
+@media screen and (min-width: 601px) and (max-width: 900px){
+   body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        margin: 0;
+        background-color: rgb(46, 49, 53);
+        text-decoration: none;
+    }
+
+    #jogo {
+        display: grid;
+        grid-template-columns: repeat(3, 175);
+        border: 5px solid rgb(46, 49, 53);
+        text-decoration: none;
+    }
+
+    #jogo>div {
+        padding: 0;
+    }
+
+    #jogo>div>button {
+        box-shadow: inset 0px 1px 3px 0px #91b8b3;
+        background-color: #768d87;
+        border-radius: 5px;
+        border: 1px solid #566963;
+        display: inline-block;
+        cursor: pointer;
+        margin: 5px;
+        padding: 11px 23px;
+        width: 115px;
+        height: 115px;
+        background-size: 115px;
+    }
+
+    #jogo>div>button:hover {
+        background-image: url('circulo2.png');
+        border: 1px solid #566963;
+        background-size: 115px;
+    }
+
+    #mensagens {
+        position: absolute;
+        margin-top: 750px;
+        text-align: center;
+        font-size: 80px;
+        color: #8AA;
+        text-shadow: 0px 1px 0 #4a6868, 0px 2px 0 #405959, 0px 3px 0 #354a4a, 0px 0px 0px hsla(0, 0%, 0%, 0), -4px 4px 6px black;
+    }
+
+    h1 {
+        padding: 15px 25px;
+        border: unset;
+        border-radius: 15px;
+        color: #212121;
+        z-index: 1;
+        background: #e8e8e8;
+        position: relative;
+        font-weight: 1000;
+        font-size: 19px;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        overflow: hidden;
+        text-align: center;
+        margin-right: 120px;
+        margin-left: 120px;
+        text-decoration: none;
+        padding: 0;
+    }
+
+    h1::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        border-radius: 15px;
+        background-color: #212121;
+        z-index: -1;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        text-decoration: none;
+    }
+
+    h1:hover {
+        color: #e8e8e8;
+        text-decoration: none;
+    }
+
+    h1:hover::before {
+        width: 100%;
+        text-decoration: none;
+    }
+
+    #jogo2 {
+        display: inline-block;
+        border: 3px solid #ffffff00;
+        width: 120px;
+        height: 120px;
+        margin-left: 0px;
+    }
+    
+    .linha {
+        display: flex;
+    }
+    
+    .quadrado {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ffffff;
+        margin: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
 }
 
-#jogo > div {
-    padding: 0;
+
+
+@media screen and (min-width: 901px) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        margin: 0;
+        background-color: rgb(46, 49, 53);
+        text-decoration: none;
+    }
+
+    #jogo {
+        display: grid;
+        grid-template-columns: repeat(3, 175);
+        border: 5px solid rgb(46, 49, 53);
+        text-decoration: none;
+    }
+
+    #jogo>div {
+        padding: 0;
+    }
+
+    #jogo>div>button {
+        box-shadow: inset 0px 1px 3px 0px #91b8b3;
+        background-color: #768d87;
+        border-radius: 5px;
+        border: 1px solid #566963;
+        display: inline-block;
+        cursor: pointer;
+        margin: 5px;
+        padding: 11px 23px;
+        width: 175px;
+        height: 175px;
+    }
+
+    #jogo>div>button:hover {
+        background-image: url('circulo2.png');
+        border: 1px solid #566963;
+    }
+
+    #mensagens {
+        position: absolute;
+        margin-top: 750px;
+        text-align: center;
+        font-size: 80px;
+        color: #8AA;
+        text-shadow: 0px 1px 0 #4a6868, 0px 2px 0 #405959, 0px 3px 0 #354a4a, 0px 0px 0px hsla(0, 0%, 0%, 0), -4px 4px 6px black;
+    }
+
+    h1 {
+        padding: 15px 25px;
+        border: unset;
+        border-radius: 15px;
+        color: #212121;
+        z-index: 1;
+        background: #e8e8e8;
+        position: relative;
+        font-weight: 1000;
+        font-size: 19px;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        overflow: hidden;
+        text-align: center;
+        margin-right: 120px;
+        margin-left: 120px;
+        text-decoration: none;
+        padding: 0;
+    }
+
+    h1::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        border-radius: 15px;
+        background-color: #212121;
+        z-index: -1;
+        box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+        transition: all 250ms;
+        text-decoration: none;
+    }
+
+    h1:hover {
+        color: #e8e8e8;
+        text-decoration: none;
+    }
+
+    h1:hover::before {
+        width: 100%;
+        text-decoration: none;
+    }
+
+    #jogo2 {
+        display: inline-block;
+        border: 3px solid #ffffff00;
+        width: 222px;
+        height: 222px;
+        margin-left: 100px;
+    }
+    
+    .linha {
+        display: flex;
+    }
+    
+    .quadrado {
+        width: 70px;
+        height: 70px;
+        border: 1px solid #ffffff;
+        margin: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
 }
 
-#jogo > div > button {
-    box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background-color:#768d87;
-	border-radius:5px;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-    margin: 5px;
-	padding:11px 23px;
-    width: 175px;
-    height: 175px;
-}
-
-#jogo > div > button:hover{
-    background-image: url('circulo2.png');
-	border:1px solid #566963;
-}
-
-#automato{
-    position: absolute;
-    margin-top: 750px;  
-    text-align: center; 
-    font-size: 80px; 
-    color: #8AA;
-    text-shadow: 0px 1px 0 #4a6868, 0px 2px 0 #405959, 0px 3px 0 #354a4a, 0px 0px 0px hsla(0, 0%, 0%, 0), -4px 4px 6px black;
-  }
