@@ -22,33 +22,33 @@ function habilitaCliques(posTag){
     return posTag;
 }
 
-function insereX2(quadradoX){
+function insereX2(quadradoX,who){
     switch (rotateStatus) {
         case 0:{
-            insereAutomato(quadradoX,1);
+            insereAutomato(quadradoX,who);
         }
             break;
         case 1:{
-            insereAutomato(rotateNum(rotateNum(rotateNum(quadradoX))),1);
+            insereAutomato(rotateNum(rotateNum(rotateNum(quadradoX))),who);
         }
             break;
         case 2:
-            insereAutomato(rotateNum(quadradoX),1);
+            insereAutomato(rotateNum(quadradoX),who);
             break;
         case 3:
-            insereAutomato(rotateNum(rotateNum(rotateNum(quadradoX))),1);
+            insereAutomato(rotateNum(rotateNum(rotateNum(quadradoX))),who);
             break;
         case 4:
-            insereAutomato(rotateNum(quadradoX),1);
+            insereAutomato(rotateNum(quadradoX),who);
             break;
         case 5:
-            insereAutomato(rotateNum(quadradoX),1);
+            insereAutomato(rotateNum(quadradoX),who);
             break;
         case 6:
-            insereAutomato(rotateNum(quadradoX),1);
+            insereAutomato(rotateNum(quadradoX),who);
             break;
         case 7:
-            insereAutomato(rotateNum(quadradoX),1);
+            insereAutomato(rotateNum(quadradoX),who);
             break;
         default:
             console.log("erro no insereX2");        
@@ -172,10 +172,6 @@ function desabilitaCliques(posTag){
     posTag[6] = null;
     posTag[7] = null;
     posTag[8] = null;
-}
-
-for (let i = 0; i < 9; i++) {
-    posStatus[i] = 0;
 }
 
 function insereCirculo(i, posClick, posStatus, posTag, clickDetect) {
@@ -662,12 +658,14 @@ function clicked(posClick) {
         switch (rotateStatus) {
             case 0: {
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
+                insereX2(posClick,0);
             }
                 break;
             case 1: {
                 posStatus = rotateR(posStatus);
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = rotateL(posStatus);
+                insereX2(posClick,0);
             }
                 break;
             case 2: {
@@ -676,24 +674,28 @@ function clicked(posClick) {
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = rotateR(posStatus);
                 posStatus = rotateR(posStatus);
+                insereX2(posClick,0);
             }
                 break;
             case 3: {
                 posStatus = rotateL(posStatus);
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = rotateR(posStatus);
+                insereX2(posClick,0);
             }
             break;
             case 4:{
                 posStatus = flipX(posStatus);
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = flipX(posStatus);
+                insereX2(posClick,0);
             }
             break;
             case 5:{
                 posStatus = flipY(posStatus);
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = flipY(posStatus);
+                insereX2(posClick,0);
             }
             break;
             case 6:{
@@ -702,6 +704,7 @@ function clicked(posClick) {
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = flipX(posStatus);
                 posStatus = rotateR(posStatus);
+                insereX2(posClick,0);
             }
             break;
             case 7:{
@@ -710,6 +713,7 @@ function clicked(posClick) {
                 ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
                 posStatus = flipY(posStatus);
                 posStatus = rotateR(posStatus);
+                insereX2(posClick,0);
             }
             default:
                 console.log("erro no reconhecimento do clique");
@@ -729,7 +733,7 @@ function playBot(){
         if(posBotTela == 0 || posBotTela == 1 || posBotTela == 4){  //sem rotacao
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
-            insereX2(posBotTela);
+            insereX2(posBotTela,1);
             botPlays[0] = posBotTela;
         }
         else if(posBotTela == 2 || posBotTela == 5){                // rotacao direita
@@ -737,7 +741,7 @@ function playBot(){
             posStatus[posBotTela] = 1;
             posStatus = rotateL(posStatus);
             rotateStatus = boardStatus(rotateStatus,1);
-            insereX2(posBotTela);
+            insereX2(posBotTela,1);
             botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
         }
         else if(posBotTela == 3 || posBotTela == 6){                // rotacao esquerda
@@ -745,7 +749,7 @@ function playBot(){
             posStatus[posBotTela] = 1;
             posStatus = rotateR(posStatus);
             rotateStatus = boardStatus(rotateStatus,3);
-            insereX2(posBotTela);
+            insereX2(posBotTela,1);
             botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
             }
         else{                                                       //rotacao dupla
@@ -754,7 +758,7 @@ function playBot(){
             posStatus = rotateR(posStatus);
             posStatus = rotateR(posStatus);
             rotateStatus = boardStatus(rotateStatus,2);
-            insereX2(posBotTela);
+            insereX2(posBotTela,1);
             botPlays[0] = rotateNum(posBotTela);
         }
         divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[0];
@@ -764,6 +768,10 @@ function playBot(){
         
         divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[0];
     }
+}
+
+for (let i = 0; i < 9; i++) {
+    posStatus[i] = 0;
 }
 
 habilitaCliques(posTag);
