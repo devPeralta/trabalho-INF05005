@@ -1147,7 +1147,7 @@ function playBot(){
     if(turnCount() == 0){
         if(!contentAfterP){
             //posBotTela = Math.floor(Math.random() * 9);
-            posBotTela = 0;
+            posBotTela = 1;
         }
         else{
             posBotTela = fileCross(turnCount());
@@ -1380,9 +1380,9 @@ function playBot(){
         }
         else if(botPlays[0] == 1 && botPlays[1] == 0){
             if(posStatus[2] == 2){
-                insereX(6);
-                posStatus[6] = 1;
-                botPlays[2] = 6;
+                insereX(4);
+                posStatus[4] = 1;
+                botPlays[2] = 4;
             }
             else{
                 insereX(2);
@@ -1432,24 +1432,23 @@ function playBot(){
         }
 
         atualizaVetAutomato(posStatus);
-        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
     //// TURNO 7 ///////////////////////////////////////////////////////
     else if(turnCount() == 6){
-        if(!contentAfterP){    
-            
+        if(!contentAfterP){ 
             if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3){
                 if(posStatus[5] == 2){
                     posBotTela = Math.floor(Math.random() * 2);
                     if(posBotTela){
                         insereX(1);
                         posStatus[1] = 1;
-                        botPlays[2] = 1;
+                        botPlays[3] = 1;
                     }
                     else{
                         insereX(7);
                         posStatus[7] = 1;
-                        botPlays[2] = 7;
+                        botPlays[3] = 7;
                     }
                 }
                 else{
@@ -1461,25 +1460,116 @@ function playBot(){
                 if(posStatus[6] == 2){
                     insereX(2);
                     posStatus[2] = 1;
-                    botPlays[2] = 2;
+                    botPlays[3] = 2;
                 }
                 else{
                     desabilitaCliques(posTag);
                     console.log("perdeu");
                 }
             }
-            else{
+            else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 6){ //q25
+                if(posStatus[2] == 2){
+                    posBotTela = Math.floor(Math.random() * 2);
+                        if(posBotTela){
+                            insereX(3);
+                            posStatus[3] = 1;
+                            botPlays[3] = 3;
+                        }
+                        else{
+                            insereX(5);
+                            posStatus[5] = 1;
+                            botPlays[3] = 5;
+                        }
+                }
+                else{
+                    insereX(2);
+                    posStatus[2] = 1;
+                    botPlays[3] = 2;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 3){ //q26
+                if(posStatus[5] == 2){
+                    posBotTela = Math.floor(Math.random() * 2);
+                        if(posBotTela){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[3] = 2;
+                        }
+                        else{
+                            insereX(6);
+                            posStatus[6] = 1;
+                            botPlays[3] = 6;
+                        }
+                }
+                else{
+                    insereX(5);
+                    posStatus[5] = 1;
+                    botPlays[3] = 5;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 8){ //q39
+                if(posStatus[0] == 2){
+                    insereX(3);
+                    posStatus[3] = 1;
+                    botPlays[3] = 3;
+                }
+                else{
+                    insereX(0);
+                    posStatus[0] = 1;
+                    botPlays[3] = 0;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 1 && botPlays[1] == 0 && botPlays[2] == 6){ //draw
+                if(posStatus[5] == 2){
+                    insereX(3);
+                    posStatus[3] = 1;
+                    botPlays[3] = 3;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(5);
+                    posStatus[5] = 1;
+                    botPlays[3] = 5;
+                    console.log("empate");
+                }
+            }
+            else if(botPlays[0] == 1 && botPlays[1] == 0 && botPlays[2] == 4){ //q34
+                if(posStatus[8] == 2){
+                    insereX(5);
+                    posStatus[5] = 1;
+                    botPlays[3] = 5;
+                    console.log("empatou");
+                }
+                else{
+                    insereX(6);
+                    posStatus[6] = 1;
+                    botPlays[3] = 6;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
                 //TO DO -> CORRIGIR ULTIMA JOGADA DO BOT NO TURNO 5 (sequencia DA1,C,DA2,LA1,LB1)
-                //INSERIR AQUI OUTRAS SITUACOES DO TURNO 7
-                //TO DO
-            }}
+        }
         else{
             insereX(fileCross(turnCount()));
             posStatus[fileCross(turnCount())] = 1;
             botPlays[3] = fileCross(turnCount());
         }
-
+        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        atualizaVetAutomato(posStatus);
     }
+    //// TURNO 9 ///////////////////////////////////////////////////////
+    else if(turnCount() == 8){
+        
+    }
+
 }
 
 var startButton = document.getElementById("start");
