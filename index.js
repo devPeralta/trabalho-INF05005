@@ -13,6 +13,7 @@ var reader = new FileReader()
 var auxInput;
 var indiceAuxInput = [9];
 var contentAfterP;
+let flagOffAutomato = 0;
 
 for (let i = 0; i < 9; i++) {
     posStatus[i] = 0;
@@ -1147,7 +1148,7 @@ function playBot(){
     if(turnCount() == 0){
         if(!contentAfterP){
             //posBotTela = Math.floor(Math.random() * 9);
-            posBotTela = 1;
+            posBotTela = 0;
         }
         else{
             posBotTela = fileCross(turnCount());
@@ -1197,12 +1198,13 @@ function playBot(){
             botPlays[0] = rotateNum(posBotTela);
         }
         
-        atualizaVetAutomato(posStatus);
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        if(!flagOffAutomato){
+            atualizaVetAutomato(posStatus);
+        }
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
     //// TURNO 3 ///////////////////////////////////////////////////////
     else if(turnCount() == 2){
-
         if(!contentAfterP){
             switch(botPlays[0]){
                 case 0:{
@@ -1212,8 +1214,41 @@ function playBot(){
                         botPlays[1] = 8;
                     }
                     else{
-                        desabilitaCliques(posTag);
-                        console.log("ira perder");
+                        flagOffAutomato = 1;
+                        if(posStatus[8] == 2){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[1] = 2;
+                            console.log("ira perder");
+                        }
+                        else if(posStatus[1] == 2){
+                            insereX(6);
+                            posStatus[6] = 1;
+                            botPlays[1] = 6;
+                            console.log("ira perder");
+                        }
+                        else if(posStatus[3] == 2){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[1] = 2;
+                            console.log("ira perder");
+                        }
+                        else if(posStatus[2] == 2){
+                            insereX(6);
+                            posStatus[6] = 1;
+                            botPlays[1] = 6;
+                            console.log("ira perder");
+                        }
+                        else if(posStatus[6] == 2){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[1] = 2;
+                            console.log("ira perder");
+                        }
+                        else{
+                            console.log("jogada nao implementada")
+                            desabilitaCliques(posTag);
+                        }
                     }
                 }
                 break;
@@ -1253,14 +1288,44 @@ function playBot(){
                         botPlays[1] = 0;
                     }
                     else{
-                        desabilitaCliques(posTag);
+                        flagOffAutomato = 1;
+                        if(posStatus[3] == 2){
+                            insereX(0);
+                            posStatus[0] = 1;
+                            botPlays[1] = 0;
+                        }
+                        else if(posStatus[5] == 2){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[1] = 2;
+                        }
                         console.log("ira perder");
                     }
                 }
                 break;
                 case 4:{
                     if(posStatus[1] == 2 || posStatus[3] == 2 || posStatus[5] == 2 || posStatus[7] == 2){
-                        desabilitaCliques(posTag);
+                        flagOffAutomato = 1;
+                        if(posStatus[1] == 2){
+                            insereX(0);
+                            posStatus[0] = 1;
+                            botPlays[1] = 0;
+                        }
+                        else if(posStatus[3] == 2){
+                            insereX(6);
+                            posStatus[6] = 1;
+                            botPlays[1] = 6;
+                        }
+                        else if(posStatus[5] == 2){
+                            insereX(2);
+                            posStatus[2] = 1;
+                            botPlays[1] = 2;
+                        }
+                        else if(posStatus[7] == 2){
+                            insereX(8);
+                            posStatus[8] = 1;
+                            botPlays[1] = 8;
+                        }
                         console.log("ira perder");
                     }
                     else if(posStatus[0] == 2){                          
@@ -1301,14 +1366,17 @@ function playBot(){
             botPlays[1] = fileCross(turnCount());
         }
 
-        atualizaVetAutomato(posStatus);
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        if(!flagOffAutomato){
+            atualizaVetAutomato(posStatus);
+        }
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
     //// TURNO 5 ///////////////////////////////////////////////////////
     else if(turnCount() == 4){
         
         if(!contentAfterP)
-        {if(botPlays[0] == 0 && botPlays[1] == 8){
+        {
+        if(botPlays[0] == 0 && botPlays[1] == 8 && !flagOffAutomato){
         divMensagem.innerHTML = "R-"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
             if(posStatus[1] == 2){
                 insereX(7);
@@ -1356,12 +1424,21 @@ function playBot(){
                 }
             }
             else{
-                desabilitaCliques(posTag);
+                flagOffAutomato = 1;
+                if(posStatus[2] == 2){
+                    insereX(6);
+                    posStatus[6] = 1;
+                    botPlays[2] = 6;
+                }
+                else{
+                    insereX(2);
+                    posStatus[2] = 1;
+                    botPlays[2] = 2;
+                }
                 console.log("ira perder");
-                //to do
             }
         }
-        else if(botPlays[0] == 4 && botPlays[1] == 2){
+        else if(botPlays[0] == 4 && botPlays[1] == 2 && !flagOffAutomato){
             if(posStatus[6] == 2){
                 insereX(3);
                 posStatus[3] = 1;
@@ -1374,7 +1451,7 @@ function playBot(){
                 console.log("perdeu");
             }
         }
-        else if(botPlays[0] == 1 && botPlays[1] == 0){
+        else if(botPlays[0] == 1 && botPlays[1] == 0 && !flagOffAutomato){
             if(posStatus[2] == 2 && posStatus[4] == 2){
                 insereX(6);
                 posStatus[6] = 1;
@@ -1392,7 +1469,7 @@ function playBot(){
                 console.log("perdeu");
             }
         }
-        else if(botPlays[0] == 1 && botPlays[1] == 4){
+        else if(botPlays[0] == 1 && botPlays[1] == 4 && !flagOffAutomato){
             if (posStatus[0] == 2 && posStatus[7] == 2) {
                 posBotTela = Math.floor(Math.random() * 2);
                 if (posBotTela) {
@@ -1428,6 +1505,87 @@ function playBot(){
                 desabilitaCliques(posTag);
                 console.log("perdeu");
             }
+        }
+        else if(botPlays[0] == 0 && botPlays[1] == 8 && posStatus[4] == 2){
+            insereX(2);
+            posStatus[2] = 1;
+            botPlays[2] = 2;
+        }
+        else if(botPlays[0] == 0 && botPlays[1] == 6 && posStatus[2] == 2 && flagOffAutomato){
+            if(posStatus[3] == 2){
+                insereX(8);
+                posStatus[8] = 1;
+                botPlays[2] = 8;
+            }
+            else{
+                insereX(3);
+                posStatus[3] = 1;
+                botPlays[2] = 3;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(botPlays[0] == 0 && botPlays[1] == 2 && posStatus[6] == 2 && flagOffAutomato){
+            if(posStatus[1] == 2){
+                insereX(8);
+                posStatus[8] = 1;
+                botPlays[2] = 8;
+            }
+            else{
+                insereX(1);
+                posStatus[1] = 1;
+                botPlays[2] = 1;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(botPlays[0] == 0 && posStatus[3] == 2 && flagOffAutomato){
+            if(posStatus[1] == 2){
+                if(posStatus[8] == 0){
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[2] = 4;
+                }
+            }
+            else{
+                insereX(1);
+                posStatus[1] = 1;
+                botPlays[2] = 1;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(botPlays[0] == 0 && botPlays[1] == 2 && posStatus[8] == 2 && flagOffAutomato){
+            if(posStatus[1] == 2){
+                insereX(6);
+                posStatus[6] = 1;
+                botPlays[2] = 6;
+            }
+            else{
+                insereX(1);
+                posStatus[1] = 1;
+                botPlays[2] = 1;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(flagOffAutomato && posStatus[0] == 1 && posStatus[2] == 1 && posStatus[1] == 0){
+            insereX(1);
+            posStatus[1] = 1;
+            botPlays[2] = 1;
+        }
+        else if(botPlays[0] == 0 && botPlays[1] == 6 && flagOffAutomato){
+            insereX(3);
+            posStatus[3] = 1;
+            botPlays[2] = 3;
+            desabilitaCliques(posTag);
+            console.log("perdeu");
+        }
+        
+        else{
+            insereX(4);
+            posStatus[4] = 1;
+            botPlays[2] = 4;
         }}
         else{
             insereX(fileCross(turnCount()));
@@ -1435,13 +1593,40 @@ function playBot(){
             botPlays[2] = fileCross(turnCount());
         }
 
-        atualizaVetAutomato(posStatus);
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        
+        if(!flagOffAutomato){
+            atualizaVetAutomato(posStatus);
+        }
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
     //// TURNO 7 ///////////////////////////////////////////////////////
     else if(turnCount() == 6){
         if(!contentAfterP){ 
-            if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3){
+            if(botPlays[0] == 0 && botPlays[1] == 2 && botPlays[2] == 6 && flagOffAutomato){
+                console.log("ta aqui");
+                if(posStatus[3] == 2){
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[2] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else if(posStatus[4] == 2){
+                    insereX(3);
+                    posStatus[3] = 1;
+                    botPlays[2] = 3;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[4] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3){
                 if(posStatus[5] == 2){
                     posBotTela = Math.floor(Math.random() * 2);
                     if(posBotTela){
@@ -1557,6 +1742,78 @@ function playBot(){
                     console.log("perdeu");
                 }
             }
+            else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 2){
+                if(posStatus[1] == 2){
+                    insereX(5);
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(1);
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 6){
+                if(posStatus[3] == 2){
+                    insereX(7);
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(3);
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 6 && botPlays[2] == 8 && flagOffAutomato){
+                if(posStatus[7] == 2){
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[4] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else if(posStatus[4] == 2){
+                    insereX(7);
+                    posStatus[7] = 1;
+                    botPlays[4] = 7;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[4] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 2 && botPlays[2] == 8 && flagOffAutomato){
+                if(posStatus[4] == 2){
+                    insereX(5);
+                    posStatus[5] = 1;
+                    botPlays[4] = 5;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else if(posStatus[5] == 2){
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[4] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+                else{
+                    insereX(4);
+                    posStatus[4] = 1;
+                    botPlays[4] = 4;
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            
+
                 //TO DO -> CORRIGIR ULTIMA JOGADA DO BOT NO TURNO 5 (sequencia DA1,C,DA2,LA1,LB1)
         }
         else{
@@ -1564,8 +1821,11 @@ function playBot(){
             posStatus[fileCross(turnCount())] = 1;
             botPlays[3] = fileCross(turnCount());
         }
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
-        atualizaVetAutomato(posStatus);
+        
+        if(!flagOffAutomato){
+            atualizaVetAutomato(posStatus);
+        }
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
     //// TURNO 9 ///////////////////////////////////////////////////////
     else if(turnCount() == 8){
@@ -1739,8 +1999,11 @@ function playBot(){
         }
 
 
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
-        atualizaVetAutomato(posStatus);
+        
+        if(!flagOffAutomato){
+            atualizaVetAutomato(posStatus);
+        }
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
     }
 
 }
