@@ -8,9 +8,12 @@
 </head>
 <body>
     <div id="jogo">
-        <a href="">
-        <h1 style="text-decoration: none;">Visualizar jogo para o AFD</h1>
+        <a href="#" onclick="document.getElementById('fileInput').click(); return false;" style="text-decoration: none;">
+            <h1>Abrir arquivo</h1>
         </a>
+        <input type="file" id="fileInput" onchange="readFile()" style="display: none;">
+        <pre style="color:white;" id="fileContent"></pre>
+
         <div id="linha1">
             <button onclick="clicked(0)" id="da1"></button>
             <button onclick="clicked(1)" id="la1"></button>
@@ -32,7 +35,7 @@
         <div class="linha">
             <div class="quadrado" id="quadrado1"></div>
             <div class="quadrado" id="quadrado2"></div>
-            <div style="background-size: 70px;" class="quadrado" id="quadrado3"></div>
+            <div class="quadrado" id="quadrado3"></div>
         </div>
         <div class="linha">
             <div class="quadrado" id="quadrado4"></div>
@@ -47,6 +50,7 @@
     </div>
 
     <div id="mensagens">
+        <button style="color:rgb(99, 214, 138)" id="start">Iniciar</button>
         <div id="automato"></div>
         <div style="font-size: 33px; color: white;" id="statRot"></div>
     </div>

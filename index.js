@@ -1,12 +1,218 @@
 let posStatus = [9];
 let posTag = [9];
-let posAutomato = [9];
+let posAutomato = [];
 let botPlays = [5];
 let rotateStatus = 0; 
 var divMensagem = document.getElementById("automato");
 var divRotate = document.getElementById("statRot");
 let randPos;
 let posBotTela;
+let drawOrLoss=0;
+let auxvet = [];
+var reader = new FileReader()
+var auxInput;
+var indiceAuxInput = [9];
+var contentAfterP;
+
+for (let i = 0; i < 9; i++) {
+    posStatus[i] = 0;
+}
+
+function readFile() {
+    var fileInput = document.getElementById('fileInput');
+    if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function() {
+            var fileContent = reader.result;
+            var startIndex = fileContent.indexOf('p:');
+            if (startIndex !== -1) {
+                contentAfterP = fileContent.substring(startIndex + 2);
+                document.getElementById('fileContent').textContent = contentAfterP;
+            } else {
+                document.getElementById('fileContent').textContent = '"p:" não encontrado no arquivo.';
+            }
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Selecione um arquivo antes de abrir.');
+    }
+}
+
+function fileInsertCross(turn){
+
+    switch(auxInput[turn]){
+            
+        case "DA1":
+            playBot();
+        break;
+        case "LA1":
+            playBot();
+        break;
+        case "DB1":
+            playBot();
+        break;
+        case "LA2":
+            playBot();
+        break;
+        case "C":
+            playBot();
+        break;
+        case "LB2":
+            playBot();
+        break;
+        case "DB2":
+            playBot();
+        break;
+        case "LB1":
+            playBot();
+        break;
+        case "DA2":
+            playBot();
+        break;
+        default: "erro no fileInser()";
+    }
+}
+
+function fileInsertCircle(turn){
+    switch(auxInput[turn]){
+        case "DA1":
+            playBot();
+            posTag[0].click();
+            posStatus[0] = 2;
+        break;
+        case "LA1":
+            posTag[1].click();
+            posStatus[1] = 2;
+        break;
+        case "DB1":
+            posTag[2].click();
+            posStatus[2] = 2;
+        break;
+        case "LA2":
+            posTag[3].click();
+            posStatus[3] = 2;
+        break;
+        case "C":
+            posTag[4].click();
+            posStatus[4] = 2;
+        break;
+        case "LB2":
+            posTag[5].click();
+            posStatus[5] = 2;
+        break;
+        case "DB2":
+            posTag[6].click();
+            posStatus[6] = 2;
+        break;
+        case "LB1":
+            posTag[7].click();
+            posStatus[7] = 2;
+        break;
+        case "DA2":
+            posTag[8].click();
+            posStatus[8] = 2;
+        break;
+        default: "erro no fileInser()";
+    }
+}
+
+function fileInsert(){
+    auxInput = contentAfterP.split(',');
+
+    if(turnCount() == 0){
+
+        var auxFirstInput = auxInput[0];
+        auxInput[0] = auxFirstInput.replace(/[\s\n]/g, "");
+        console.log("auxinput[primeiro] = " + auxInput[0]);
+        fileInsertCross(0);
+    }
+    else if(turnCount() == 1){
+        fileInsertCircle(1);
+    }
+    else if(turnCount() == 2){
+        fileInsertCross(2);
+    }
+    else if(turnCount() == 3){
+        fileInsertCircle(3);
+    }
+    else if(turnCount() == 4){
+        fileInsertCross(4);
+    }
+    else if(turnCount() == 5){
+        fileInsertCircle(5);
+    }
+    else if(turnCount() == 6){
+        fileInsertCross(6);
+    }
+    else if(turnCount() == 7){
+        fileInsertCircle(7);
+    }
+    else if(turnCount() == 8){
+        fileInsertCross(8);
+    }
+
+    atualizaVetAutomato(posStatus);
+    //TO DO : proximos ifs elses
+}
+
+function fileCross(turn){
+    auxInput = contentAfterP.split(',');
+
+    var auxFirstInput = auxInput[0];
+    auxInput[0] = auxFirstInput.replace(/[\s\n]/g, "");
+    console.log("auxinput[primeiro] = " + auxInput[0]);
+
+    switch(auxInput[turn]){
+            
+        case "DA1":
+            return 0;
+        break;
+        case "LA1":
+            return 1;
+        break;
+        case "DB1":
+            return 2;
+        break;
+        case "LA2":
+            return 3;
+        break;
+        case "C":
+            return 4;
+        break;
+        case "LB2":
+            return 5;
+        break;
+        case "DB2":
+            return 6;
+        break;
+        case "LB1":
+            return 7;
+        break;
+        case "DA2":
+            return 8;
+        break;
+        default: "erro no fileInser()";
+    }
+}
+
+function atualizaVetAutomato(posStatus){
+    for(i=0;i<9;i++){
+        if(posStatus[i] == 1){
+            document.getElementById(posAutomato[i]).style.backgroundImage = "url('cross3.png')";
+            document.getElementById(posAutomato[i]).style.backgroundSize = "cover"; 
+        }
+        else if(posStatus[i] == 2){
+            document.getElementById(posAutomato[i]).style.backgroundImage = "url('circulo3.png')";
+            document.getElementById(posAutomato[i]).style.backgroundSize = "cover"; 
+        }
+        else{
+            document.getElementById(posAutomato[i]).style.backgroundImage = "url('vazio3.png')";
+            document.getElementById(posAutomato[i]).style.backgroundSize = "cover"; 
+        }
+    }
+}
 
 function habilitaCliques(posTag){
     posTag[0] = da1;
@@ -18,6 +224,16 @@ function habilitaCliques(posTag){
     posTag[6] = db2;
     posTag[7] = lb1;
     posTag[8] = da2;
+    
+    posAutomato[0] = "quadrado1";
+    posAutomato[1] = "quadrado2";
+    posAutomato[2] = "quadrado3";
+    posAutomato[3] = "quadrado4";
+    posAutomato[4] = "quadrado5";
+    posAutomato[5] = "quadrado6";
+    posAutomato[6] = "quadrado7";
+    posAutomato[7] = "quadrado8";
+    posAutomato[8] = "quadrado9";
 
     return posTag;
 }
@@ -80,15 +296,15 @@ function insereAutomato(quadradoX,who){
         }
             break;
         case 2:{
-                if(who){
-                    document.getElementById("quadrado3").style.backgroundImage = "url('cross3.png')";
-                    document.getElementById("quadrado4").style.backgroundSize = "cover"; 
-                }
-                else{
-                    document.getElementById("quadrado3").style.backgroundImage = "url('circulo3.png')";
-                    document.getElementById("quadrado3").style.backgroundSize = "cover"; 
-                }
+            if(who){
+                document.getElementById("quadrado3").style.backgroundImage = "url('cross3.png')";
+                document.getElementById("quadrado3").style.backgroundSize = "cover"; 
             }
+            else{
+                document.getElementById("quadrado3").style.backgroundImage = "url('circulo3.png')";
+                document.getElementById("quadrado3").style.backgroundSize = "cover"; 
+            }
+        }
             break;
         case 3:{
             if(who){
@@ -172,16 +388,8 @@ function desabilitaCliques(posTag){
     posTag[6] = null;
     posTag[7] = null;
     posTag[8] = null;
-}
 
-function insereCirculo(i, posClick, posStatus, posTag, clickDetect) {
-    if (posClick == i && posStatus[i] == 0) {
-        posTag[i].style.backgroundImage = "url('circulo.png')";
-        posStatus[i] = 1;
-        clickDetect = 1;
-    }
-
-    return { posStatus, clickDetect };
+    drawOrLoss = 1;
 }
 
 function boardStatus(rotateStatus,type){
@@ -616,6 +824,194 @@ function rotateNum(x){
     return x;
 }
 
+function flipNumX(x){
+    switch(x){
+        case 0: // pos0
+            switch(rotateStatus){
+                case 0: x = 0;
+                break;
+                case 1: x = 2;
+                break;
+                case 2: x = 6;
+                break;
+                case 3: x = 2;
+                break;
+                case 4: x = 6;
+                break;
+                case 5: x = 6;
+                break;
+                case 6: x = 2;
+                break;
+                case 7: x = 2;
+                break;
+            }
+        break;
+        case 1: // pos1
+            switch(rotateStatus){
+                case 0: x = 7;
+                break;
+                case 1: x = 1;
+                break;
+                case 2: x = 7;
+                break;
+                case 3: x = 1;
+                break;
+                case 4: x = 7;
+                break;
+                case 5: x = 7;
+                break;
+                case 6: x = 1;
+                break;
+                case 7: x = 1;
+                break;
+            }
+        break;
+        case 2: // pos2
+            switch(rotateStatus){
+                case 0: x = 8;
+                break;
+                case 1: x = 0;
+                break;
+                case 2: x = 8;
+                break;
+                case 3: x = 0;
+                break;
+                case 4: x = 8;
+                break;
+                case 5: x = 8;
+                break;
+                case 6: x = 0;
+                break;
+                case 7: x = 0;
+                break;
+            }
+            break;
+        case 3:
+            switch(rotateStatus){
+                case 0: x = 3;
+                break;
+                case 1: x = 5;
+                break;
+                case 2: x = 3;
+                break;
+                case 3: x = 5;
+                break;
+                case 4: x = 3;
+                break;
+                case 5: x = 3;
+                break;
+                case 6: x = 5;
+                break;
+                case 7: x = 5;
+                break;
+            }
+            break;
+        case 4:
+            switch(rotateStatus){
+                case 0: x = 4;
+                break;
+                case 1: x = 4;
+                break;
+                case 2: x = 4;
+                break;
+                case 3: x = 4;
+                break;
+                case 4: x = 4;
+                break;
+                case 5: x = 4;
+                break;
+                case 6: x = 4;
+                break;
+                case 7: x = 4;
+                break;
+            }
+            break;
+        case 5:
+            switch(rotateStatus){
+                case 0: x = 5;
+                break;
+                case 1: x = 3;
+                break;
+                case 2: x = 5;
+                break;
+                case 3: x = 3;
+                break;
+                case 4: x = 5;
+                break;
+                case 5: x = 5;
+                break;
+                case 6: x = 3;
+                break;
+                case 7: x = 3;
+                break;
+            }
+            break;
+        case 6:
+            switch(rotateStatus){
+                case 0: x = 0;
+                break;
+                case 1: x = 8;
+                break;
+                case 2: x = 0;
+                break;
+                case 3: x = 8;
+                break;
+                case 4: x = 0;
+                break;
+                case 5: x = 0;
+                break;
+                case 6: x = 8;
+                break;
+                case 7: x = 8;
+                break;
+            }
+            break;
+        case 7:
+            switch(rotateStatus){
+                case 0: x = 1;
+                break;
+                case 1: x = 7;
+                break;
+                case 2: x = 1;
+                break;
+                case 3: x = 7;
+                break;
+                case 4: x = 1;
+                break;
+                case 5: x = 1;
+                break;
+                case 6: x = 7;
+                break;
+                case 7: x = 7;
+                break;
+            }
+            break;
+        case 8:
+            switch(rotateStatus){
+                case 0: x = 2;
+                break;
+                case 1: x = 6;
+                break;
+                case 2: x = 2;
+                break;
+                case 3: x = 6;
+                break;
+                case 4: x = 2;
+                break;
+                case 5: x = 2;
+                break;
+                case 6: x = 6;
+                break;
+                case 7: x = 6;
+                break;
+            }
+        break;
+        default:
+    }
+
+    return x;
+}
+
 function matrizJogo(){
     
     let matrizJogo;
@@ -632,17 +1028,15 @@ function matrizJogo(){
 function insereX(posTela) {
 
     posTela = rotateNum(posTela);
-
     posTag[posTela].style.backgroundImage = "url('cross2.png')";
 
-    console.log(posStatus);
 }
 
 function turnCount() {
     let counter = 0;
 
     for (let i = 0; i < 9; i++) {
-        if (posStatus[i] == 1) {
+        if (posStatus[i] == 1 || posStatus[i] == 2) {
             counter++;
         }
     }
@@ -657,122 +1051,452 @@ function clicked(posClick) {
     for (let i = 0; i < 9; i++) {
         switch (rotateStatus) {
             case 0: {
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                insereX2(posClick,0);
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                }
             }
                 break;
             case 1: {
                 posStatus = rotateR(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = rotateL(posStatus);
-                insereX2(posClick,0);
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = rotateL(posStatus);
             }
                 break;
             case 2: {
                 posStatus = rotateR(posStatus);
                 posStatus = rotateR(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = rotateR(posStatus);
                 posStatus = rotateR(posStatus);
-                posStatus = rotateR(posStatus);
-                insereX2(posClick,0);
             }
                 break;
             case 3: {
                 posStatus = rotateL(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = rotateR(posStatus);
-                insereX2(posClick,0);
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = rotateR(posStatus);
             }
-            break;
-            case 4:{
+                break;
+            case 4: {
                 posStatus = flipX(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = flipX(posStatus);
-                insereX2(posClick,0);
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = flipX(posStatus);
             }
-            break;
-            case 5:{
+                break;
+            case 5: {
                 posStatus = flipY(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = flipY(posStatus);
-                insereX2(posClick,0);
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = flipY(posStatus);
             }
-            break;
-            case 6:{
+                break;
+            case 6: {
                 posStatus = flipX(posStatus);
                 posStatus = rotateR(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = flipX(posStatus);
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = flipX(posStatus);
                 posStatus = rotateR(posStatus);
-                insereX2(posClick,0);
             }
-            break;
-            case 7:{
+                break;
+            case 7: {
                 posStatus = flipY(posStatus);
                 posStatus = rotateR(posStatus);
-                ({ posStatus, clickDetect } = insereCirculo(i, posClick, posStatus, posTag, clickDetect));
-                posStatus = flipY(posStatus);
+
+                if (posClick == i && posStatus[i] == 0) {
+                    posTag[i].style.backgroundImage = "url('circulo.png')";
+                    posStatus[i] = 2;
+                    clickDetect = 1;
+                } posStatus = flipY(posStatus);
                 posStatus = rotateR(posStatus);
-                insereX2(posClick,0);
             }
             default:
                 console.log("erro no reconhecimento do clique");
         }
-        if (clickDetect == 1) {
+        if (clickDetect == 1 && !contentAfterP) {
             playBot();
-            divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[0];
         }
     }
 }
 
 function playBot(){
+    
     // TURNO 1 ///////////////////////////////////////////////////////
     if(turnCount() == 0){
-        posBotTela = Math.floor(Math.random() * 9);
-        //posBotTela = 8;
+        if(!contentAfterP){
+            //posBotTela = Math.floor(Math.random() * 9);
+            posBotTela = 0;
+        }
+        else{
+            posBotTela = fileCross(turnCount());
+        }
         if(posBotTela == 0 || posBotTela == 1 || posBotTela == 4){  //sem rotacao
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
-            insereX2(posBotTela,1);
             botPlays[0] = posBotTela;
         }
-        else if(posBotTela == 2 || posBotTela == 5){                // rotacao direita
+        else if(posBotTela == 2){                // rotacao direita
+            insereX(posBotTela);
+            posStatus[posBotTela] = 1;
+            //as duas linhas abaixo precisam ficar invertidas!!
+            posStatus = rotateL(posStatus);
+            rotateStatus = boardStatus(rotateStatus,1);
+            
+            botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
+        }
+        else if(posBotTela == 5){
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateL(posStatus);
             rotateStatus = boardStatus(rotateStatus,1);
-            insereX2(posBotTela,1);
             botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
         }
-        else if(posBotTela == 3 || posBotTela == 6){                // rotacao esquerda
+        else if(posBotTela == 3){                // rotacao esquerda
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateR(posStatus);
             rotateStatus = boardStatus(rotateStatus,3);
-            insereX2(posBotTela,1);
             botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
-            }
+        }
+        else if(posBotTela == 6){
+            insereX(posBotTela);
+            posStatus[posBotTela] = 1;
+            posStatus = rotateR(posStatus);
+            rotateStatus = boardStatus(rotateStatus,3);
+            botPlays[0] = rotateNum(rotateNum(rotateNum(posBotTela)));
+        }
         else{                                                       //rotacao dupla
             insereX(posBotTela);
             posStatus[posBotTela] = 1;
             posStatus = rotateR(posStatus);
             posStatus = rotateR(posStatus);
             rotateStatus = boardStatus(rotateStatus,2);
-            insereX2(posBotTela,1);
+            //insereX2(posBotTela,1);
             botPlays[0] = rotateNum(posBotTela);
         }
+        
+        atualizaVetAutomato(posStatus);
         divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[0];
     }
     //// TURNO 3 ///////////////////////////////////////////////////////
-    else if(turnCount == 2){
+    else if(turnCount() == 2){
+
+        if(!contentAfterP){
+            switch(botPlays[0]){
+                case 0:{
+                    if(posStatus[4] == 2){
+                        insereX(8);
+                        posStatus[8] = 1;
+                        botPlays[1] = 8;
+                    }
+                    else{
+                        desabilitaCliques(posTag);
+                        console.log("perdeu");
+                    }
+                }
+                break;
+                case 1:{
+                    if(posStatus[0] == 2){
+                        insereX(4);
+                        posStatus[4] = 1;
+                        botPlays[1] = 4;
+                    }
+                    else if(posStatus[2] == 2){                             
+                        insereX(4);
+                        posStatus[4] = 1;
+                        posStatus = flipY(posStatus);
+                        rotateStatus = boardStatus(rotateStatus,5);
+                        botPlays[1] = 4;
+                    }
+                    else if(posStatus[8] == 2){
+                        insereX(4);
+                        posStatus[4] = 1;
+                        posStatus = flipY(posStatus);
+                        rotateStatus = boardStatus(rotateStatus,5);
+                        botPlays[1] = 4;
+                    }
+                    else if(posStatus[6] == 2){
+                        insereX(4);
+                        posStatus[4] = 1;
+                        botPlays[1] = 4;
+                    }
+                    else if(posStatus[4] == 2){
+                        insereX(0);
+                        posStatus[0] = 1;
+                        botPlays[1] = 0;
+                    }
+                    else if(posStatus[7] == 2){
+                        insereX(0);
+                        posStatus[0] = 1;
+                        botPlays[1] = 0;
+                    }
+                    else{
+                        desabilitaCliques(posTag);
+                        console.log("perdeu");
+                    }
+                }
+                break;
+                case 4:{
+                    if(posStatus[1] == 2 || posStatus[3] == 2 || posStatus[5] == 2 || posStatus[7] == 2){
+                        desabilitaCliques(posTag);
+                        console.log("perdeu");
+                    }
+                    else if(posStatus[0] == 2){                          
+                        insereX(2);
+                        posStatus[2] = 1;
+                        botPlays[1] = 2;
+                    }
+                    else if(posStatus[2] == 2){
+                        insereX(8);
+                        posStatus[8] = 1;
+                        posStatus = rotateL(posStatus);
+                        rotateStatus = boardStatus(rotateStatus,1);
+                        botPlays[1] = 2;
+                    }
+                    else if(posStatus[6] == 2){
+                        insereX(0);
+                        posStatus[0] = 1;
+                        posStatus = rotateR(posStatus);
+                        rotateStatus = boardStatus(rotateStatus,3);
+                        botPlays[1] = 2;
+                    }
+                    else if(posStatus[8] == 2){
+                        insereX(6);
+                        posStatus[6] = 1;
+                        posStatus = rotateL(posStatus);
+                        posStatus = rotateL(posStatus);
+                        rotateStatus = boardStatus(rotateStatus,2);
+                        botPlays[1] = 2;
+                    }
+                }
+                break;
+                default: console.log("erro no botplays[0]");
+            }
+        }
+        else{
+            insereX(fileCross(turnCount()));
+            posStatus[fileCross(turnCount())] = 1;
+            botPlays[1] = fileCross(turnCount());
+        }
+
+        atualizaVetAutomato(posStatus);
+        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[1];
+    }
+    //// TURNO 5 ///////////////////////////////////////////////////////
+    else if(turnCount() == 4){
         
-        divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays[0];
+        if(!contentAfterP)
+        {if(botPlays[0] == 0 && botPlays[1] == 8){
+        divMensagem.innerHTML = "R-"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+            if(posStatus[1] == 2){
+                insereX(7);
+                posStatus[7] = 1;
+                botPlays[2] = 7;
+                console.log("if0");
+            }
+            else if(posStatus[7] == 2){
+                auxvet = posStatus;
+                insereX(1);
+                posStatus[1] = 1;
+                posStatus = rotateL(posStatus);
+                posStatus = rotateL(posStatus);
+                rotateStatus = boardStatus(rotateStatus,2);
+                //botPlays[2] = rotateNum(rotateNum(1));
+                for(let i=0;i<9;i++){
+                    if(auxvet[i] != posStatus[i] && i != 2){
+                        botPlays[2] = i;
+                    }
+                }
+                console.log("if1");
+            }
+            else if(posStatus[3] == 2){
+                insereX(5);
+                posStatus[5] = 1;
+                posStatus = rotateL(posStatus);
+                posStatus = flipX(posStatus);
+                rotateStatus = boardStatus(rotateStatus,6);
+                //botPlays[2] = flipNumX(rotateNum(rotateNum(rotateNum(5))));
+                for(let i=0;i<9;i++){
+                    if(auxvet[i] != posStatus[i] && i != 2){
+                        botPlays[2] = i-1;
+                    }
+                }
+                console.log("if2");
+            }
+            else if(posStatus[5] == 2){
+                insereX(3);
+                posStatus[3] = 1;
+                posStatus = rotateL(posStatus);
+                posStatus = flipY(posStatus);
+                rotateStatus = boardStatus(rotateStatus,7);
+                //botPlays[2] = flipNumX(rotateNum(3));
+                for(let i=0;i<9;i++){
+                    if(auxvet[i] != posStatus[i] && i != 2){
+                        botPlays[2] = i-1;
+                    }
+                }
+                console.log("if3");
+            }
+            else{
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+                //to do
+            }
+        }
+        else if(botPlays[0] == 4 && botPlays[1] == 2){
+            if(posStatus[6] == 2){
+                insereX(3);
+                posStatus[3] = 1;
+                botPlays[2] = 3;
+            }
+            else{
+                insereX(6);
+                posStatus[6] = 1;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(botPlays[0] == 1 && botPlays[1] == 0){
+            if(posStatus[2] == 2){
+                insereX(6);
+                posStatus[6] = 1;
+                botPlays[2] = 6;
+            }
+            else{
+                insereX(2);
+                posStatus[2] = 1;
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }
+        else if(botPlays[0] == 1 && botPlays[1] == 4){
+            if (posStatus[0] == 2 && posStatus[7] == 2) {
+                posBotTela = Math.floor(Math.random() * 2);
+                if (posBotTela) {
+                    insereX(3);
+                    posStatus[3] = 1;
+                    botPlays[2] = 3;
+                }
+                else {
+                    insereX(6);
+                    posStatus[6] = 1;
+                    botPlays[2] = 6;
+                }
+            }
+            else if(posStatus[6] == 2 && posStatus[7] == 2){
+                    insereX(8);
+                    posStatus[8] = 1;
+                    botPlays[2] = 8;
+            }
+            else if(posStatus[4] == 2 && posStatus[2] == 2){
+                insereX(6);
+                posStatus[6] = 1;
+                botPlays[2] = 6;
+            }
+            else if(posStatus[6] == 2 && posStatus[7] == 2){
+                insereX(8);
+                posStatus[8] = 1;
+                botPlays[8] = 4;
+            }
+            else{
+                desabilitaCliques(posTag);
+                console.log("perdeu");
+            }
+        }}
+        else{
+            insereX(fileCross(turnCount()));
+            posStatus[fileCross(turnCount())] = 1;
+            botPlays[2] = fileCross(turnCount());
+        }
+
+        atualizaVetAutomato(posStatus);
+        //divMensagem.innerHTML = "R"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+    }
+    //// TURNO 7 ///////////////////////////////////////////////////////
+    else if(turnCount() == 6){
+        if(!contentAfterP){    
+            
+            if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3){
+                if(posStatus[5] == 2){
+                    posBotTela = Math.floor(Math.random() * 2);
+                    if(posBotTela){
+                        insereX(1);
+                        posStatus[1] = 1;
+                        botPlays[2] = 1;
+                    }
+                    else{
+                        insereX(7);
+                        posStatus[7] = 1;
+                        botPlays[2] = 7;
+                    }
+                }
+                else{
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 7){
+                if(posStatus[6] == 2){
+                    insereX(2);
+                    posStatus[2] = 1;
+                    botPlays[2] = 2;
+                }
+                else{
+                    desabilitaCliques(posTag);
+                    console.log("perdeu");
+                }
+            }
+            else{
+                //TO DO -> CORRIGIR ULTIMA JOGADA DO BOT NO TURNO 5 (sequencia DA1,C,DA2,LA1,LB1)
+                //INSERIR AQUI OUTRAS SITUACOES DO TURNO 7
+                //TO DO
+            }}
+        else{
+            insereX(fileCross(turnCount()));
+            posStatus[fileCross(turnCount())] = 1;
+            botPlays[3] = fileCross(turnCount());
+        }
+
     }
 }
 
-for (let i = 0; i < 9; i++) {
-    posStatus[i] = 0;
-}
+var startButton = document.getElementById("start");
+
+startButton.addEventListener('click', function() {
+    if(!contentAfterP){
+        console.log("arquivo nao existe");
+        playBot();
+    }
+    else{
+        for(let i=0;i<9;i++){
+            console.log("arquivo existe");
+            fileInsert();
+        }
+    }
+});
 
 habilitaCliques(posTag);
-playBot();
+
+
