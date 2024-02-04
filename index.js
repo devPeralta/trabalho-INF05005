@@ -1147,8 +1147,8 @@ function playBot(){
     // TURNO 1 ///////////////////////////////////////////////////////
     if(turnCount() == 0){
         if(!contentAfterP){
-            //posBotTela = Math.floor(Math.random() * 9);
-            posBotTela = 0;
+            posBotTela = Math.floor(Math.random() * 9);
+            //posBotTela = 0;
         }
         else{
             posBotTela = fileCross(turnCount());
