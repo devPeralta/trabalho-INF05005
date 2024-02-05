@@ -4,7 +4,6 @@ let posAutomato = [];
 let botPlays = [5];
 let rotateStatus = 0; 
 var divMensagem = document.getElementById("automato");
-var divRotate = document.getElementById("statRot");
 let randPos;
 let posBotTela;
 let drawOrLoss=0;
@@ -14,6 +13,8 @@ var auxInput;
 var indiceAuxInput = [9];
 var contentAfterP;
 let flagOffAutomato = 0;
+var aceitaRejeita;
+let contador=0;
 
 for (let i = 0; i < 9; i++) {
     posStatus[i] = 0;
@@ -27,12 +28,12 @@ function readFile() {
 
         reader.onload = function() {
             var fileContent = reader.result;
-            var startIndex = fileContent.indexOf('p:');
+            var startIndex = fileContent.indexOf('');
             if (startIndex !== -1) {
-                contentAfterP = fileContent.substring(startIndex + 2);
+                contentAfterP = fileContent.substring(startIndex);
                 document.getElementById('fileContent').textContent = contentAfterP;
             } else {
-                document.getElementById('fileContent').textContent = '"p:" não encontrado no arquivo.';
+                document.getElementById('fileContent').textContent = 'erro ao ler arquivo';
             }
         };
         reader.readAsText(file);
@@ -126,7 +127,6 @@ function fileInsert(){
 
         var auxFirstInput = auxInput[0];
         auxInput[0] = auxFirstInput.replace(/[\s\n]/g, "");
-        console.log("auxinput[primeiro] = " + auxInput[0]);
         fileInsertCross(0);
     }
     else if(turnCount() == 1){
@@ -163,7 +163,6 @@ function fileCross(turn){
 
     var auxFirstInput = auxInput[0];
     auxInput[0] = auxFirstInput.replace(/[\s\n]/g, "");
-    console.log("auxinput[primeiro] = " + auxInput[0]);
 
     switch(auxInput[turn]){
             
@@ -1377,7 +1376,7 @@ function playBot(){
         if(!contentAfterP)
         {
         if(botPlays[0] == 0 && botPlays[1] == 8 && !flagOffAutomato){
-        divMensagem.innerHTML = "R-"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
+        //divMensagem.innerHTML = "R-"+ rotateStatus + ":" + posStatus+ ":BP"+ botPlays;
             if(posStatus[1] == 2){
                 insereX(7);
                 posStatus[7] = 1;
@@ -1449,6 +1448,7 @@ function playBot(){
                 posStatus[6] = 1;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 1 && botPlays[1] == 0 && !flagOffAutomato){
@@ -1467,6 +1467,7 @@ function playBot(){
                 posStatus[2] = 1;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 1 && botPlays[1] == 4 && !flagOffAutomato){
@@ -1504,6 +1505,7 @@ function playBot(){
                 botPlays[2] = 7;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 0 && botPlays[1] == 8 && posStatus[4] == 2){
@@ -1523,6 +1525,7 @@ function playBot(){
                 botPlays[2] = 3;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 0 && botPlays[1] == 2 && posStatus[6] == 2 && flagOffAutomato){
@@ -1537,6 +1540,7 @@ function playBot(){
                 botPlays[2] = 1;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 0 && posStatus[3] == 2 && flagOffAutomato){
@@ -1553,6 +1557,7 @@ function playBot(){
                 botPlays[2] = 1;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(botPlays[0] == 0 && botPlays[1] == 2 && posStatus[8] == 2 && flagOffAutomato){
@@ -1567,6 +1572,7 @@ function playBot(){
                 botPlays[2] = 1;
                 desabilitaCliques(posTag);
                 console.log("perdeu");
+aceitaRejeita = 1;
             }
         }
         else if(flagOffAutomato && posStatus[0] == 1 && posStatus[2] == 1 && posStatus[1] == 0){
@@ -1580,6 +1586,7 @@ function playBot(){
             botPlays[2] = 3;
             desabilitaCliques(posTag);
             console.log("perdeu");
+aceitaRejeita = 1;
         }
         
         else{
@@ -1610,6 +1617,7 @@ function playBot(){
                     botPlays[2] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else if(posStatus[4] == 2){
                     insereX(3);
@@ -1617,6 +1625,7 @@ function playBot(){
                     botPlays[2] = 3;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(4);
@@ -1624,6 +1633,7 @@ function playBot(){
                     botPlays[4] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3){
@@ -1643,6 +1653,7 @@ function playBot(){
                 else{
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 7){
@@ -1654,6 +1665,7 @@ function playBot(){
                 else{
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 6){ //q25
@@ -1676,6 +1688,7 @@ function playBot(){
                     botPlays[3] = 2;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 3){ //q26
@@ -1698,6 +1711,7 @@ function playBot(){
                     botPlays[3] = 5;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 8){ //q39
@@ -1712,6 +1726,7 @@ function playBot(){
                     botPlays[3] = 0;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 0 && botPlays[2] == 6){ //draw
@@ -1725,6 +1740,7 @@ function playBot(){
                     posStatus[3] = 1;
                     botPlays[3] = 3;
                     console.log("perdeu");
+aceitaRejeita = 1;
                     desabilitaCliques(posTag);
                 }
             }
@@ -1740,6 +1756,7 @@ function playBot(){
                     botPlays[3] = 6;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 2){
@@ -1747,11 +1764,13 @@ function playBot(){
                     insereX(5);
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(1);
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 6){
@@ -1759,11 +1778,13 @@ function playBot(){
                     insereX(7);
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(3);
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 0 && botPlays[1] == 6 && botPlays[2] == 8 && flagOffAutomato){
@@ -1773,6 +1794,7 @@ function playBot(){
                     botPlays[4] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else if(posStatus[4] == 2){
                     insereX(7);
@@ -1780,6 +1802,7 @@ function playBot(){
                     botPlays[4] = 7;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(4);
@@ -1787,6 +1810,7 @@ function playBot(){
                     botPlays[4] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 0 && botPlays[1] == 2 && botPlays[2] == 8 && flagOffAutomato){
@@ -1796,6 +1820,7 @@ function playBot(){
                     botPlays[4] = 5;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else if(posStatus[5] == 2){
                     insereX(4);
@@ -1803,6 +1828,7 @@ function playBot(){
                     botPlays[4] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(4);
@@ -1810,6 +1836,43 @@ function playBot(){
                     botPlays[4] = 4;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 2 && botPlays[2] == 4 && flagOffAutomato){
+                if(posStatus[8] == 2){
+                    insereX(6);
+                    posStatus[6] = 1;
+                    botPlays[3] = 6;
+                    console.log("perdeu");
+aceitaRejeita = 1;
+                    desabilitaCliques(posTag);
+                }
+                else{
+                    insereX(8);
+                    posStatus[8] = 1;
+                    botPlays[3] = 8;
+                    console.log("perdeu");
+aceitaRejeita = 1;
+                    desabilitaCliques(posTag);
+                }
+            }
+            else if(botPlays[0] == 0 && botPlays[1] == 6 && botPlays[2] == 4 && flagOffAutomato){
+                if(posStatus[8] == 2){
+                    insereX(2);
+                    posStatus[2] = 1;
+                    botPlays[3] = 2;
+                    console.log("perdeu");
+aceitaRejeita = 1;
+                    desabilitaCliques(posTag);
+                }
+                else{
+                    insereX(8);
+                    posStatus[8] = 1;
+                    botPlays[3] = 8;
+                    console.log("perdeu");
+aceitaRejeita = 1;
+                    desabilitaCliques(posTag);
                 }
             }
             
@@ -1831,12 +1894,14 @@ function playBot(){
     else if(turnCount() == 8){
         if(!contentAfterP){ 
             if(botPlays[0] == 0 && botPlays[1] == 8 && botPlays[2] == 7 && botPlays[3] == 2){ //
+                console.log("flag");
                 if(posStatus[3] == 2){
                     insereX(5);
                     posStatus[5] = 1;
                     botPlays[4] = 5;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+                    aceitaRejeita = 1;
                 }
                 else{
                     insereX(3);
@@ -1844,6 +1909,7 @@ function playBot(){
                     botPlays[4] = 3;
                     desabilitaCliques(posTag);
                     console.log("empate");
+                    aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3 && botPlays[3] == 1){ //q11
@@ -1853,6 +1919,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(7);
@@ -1860,6 +1927,7 @@ function playBot(){
                     botPlays[4] = 7;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 4 && botPlays[1] == 2 && botPlays[2] == 3 && botPlays[3] == 7){ //q10
@@ -1869,6 +1937,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(1);
@@ -1876,6 +1945,7 @@ function playBot(){
                     botPlays[4] = 1;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 3 && botPlays[3] == 2){ // q29
@@ -1885,6 +1955,7 @@ function playBot(){
                     botPlays[4] = 6;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(8);
@@ -1892,6 +1963,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             } 
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 3 && botPlays[3] == 6){ // q30
@@ -1901,6 +1973,7 @@ function playBot(){
                     botPlays[4] = 2;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(8);
@@ -1908,6 +1981,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             } 
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 6 && botPlays[3] == 3){ // q27
@@ -1917,6 +1991,7 @@ function playBot(){
                     botPlays[4] = 5;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(8);
@@ -1924,6 +1999,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             } 
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 6 && botPlays[3] == 5){ // q28
@@ -1933,6 +2009,7 @@ function playBot(){
                     botPlays[4] = 3;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(8);
@@ -1940,6 +2017,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 4 && botPlays[2] == 8 && botPlays[3] == 3){ //q40
@@ -1949,6 +2027,7 @@ function playBot(){
                     botPlays[4] = 5;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(2);
@@ -1956,6 +2035,7 @@ function playBot(){
                     botPlays[4] = 2;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 0 && botPlays[2] == 4 && botPlays[3] == 5){ //q35
@@ -1965,6 +2045,7 @@ function playBot(){
                     botPlays[4] = 3;
                     desabilitaCliques(posTag);
                     console.log("perdeu");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(6);
@@ -1972,6 +2053,7 @@ function playBot(){
                     botPlays[4] = 6;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             }
             else if(botPlays[0] == 1 && botPlays[1] == 0 && botPlays[2] == 6 && botPlays[3] == 5){
@@ -1981,6 +2063,7 @@ function playBot(){
                     botPlays[4] = 7;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
                 else{
                     insereX(8);
@@ -1988,6 +2071,7 @@ function playBot(){
                     botPlays[4] = 8;
                     desabilitaCliques(posTag);
                     console.log("empate");
+aceitaRejeita = 1;
                 }
             }
             
@@ -1997,8 +2081,6 @@ function playBot(){
             posStatus[fileCross(turnCount())] = 1;
             botPlays[4] = fileCross(turnCount());
         }
-
-
         
         if(!flagOffAutomato){
             atualizaVetAutomato(posStatus);
@@ -2017,12 +2099,9 @@ startButton.addEventListener('click', function() {
     }
     else{
         for(let i=0;i<9;i++){
-            console.log("arquivo existe");
-            fileInsert();
+            fileInsert();            
         }
     }
 });
 
 habilitaCliques(posTag);
-
-
